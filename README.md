@@ -6,13 +6,17 @@ Project created in the training of angular of alura
 
 Start client side
 
-    ng serve    
+    ng serve
 
 Start API
-   
+
     cd _api
     npm start
 
+# Login
+
+    user: flavio
+    pass: 123
 
 # Architecture
 
