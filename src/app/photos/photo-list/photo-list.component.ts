@@ -14,7 +14,7 @@ export class PhotoListComponent implements OnInit {
   filter = '';
   hasMore = true;
   currentPage = 1;
-  userName = 'flavio';
+  userName = '';
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -22,7 +22,7 @@ export class PhotoListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    //this.userName = this.activatedRoute.snapshot.data.userName;
+    this.userName = this.activatedRoute.snapshot.params.userName;
     this.photos = this.activatedRoute.snapshot.data.photos;
   }
 
