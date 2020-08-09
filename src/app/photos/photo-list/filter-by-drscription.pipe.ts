@@ -1,11 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Photo } from '../photo/photo.type';
+import { IPhoto } from '../photo/photo.type';
 
 @Pipe({
   name: 'filterByDescription',
 })
 export class FilterByDescription implements PipeTransform {
-  transform(photos: Photo[], descriptionQuery: string) {
+  transform(photos: IPhoto[], descriptionQuery: string) {
     descriptionQuery = descriptionQuery.trim().toLowerCase();
     if (descriptionQuery) {
       return photos.filter((photo) =>

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Photo } from '../photo/photo.type';
+import { IPhoto } from '../photo/photo.type';
 import { debounceTime } from 'rxjs/operators';
 import { PhotoService } from '../photo/photo.service';
 
@@ -10,7 +10,7 @@ import { PhotoService } from '../photo/photo.service';
   styleUrls: ['./photo-list.component.scss'],
 })
 export class PhotoListComponent implements OnInit {
-  photos: Photo[] = [];
+  photos: IPhoto[] = [];
   filter = '';
   hasMore = true;
   currentPage = 1;
@@ -22,8 +22,10 @@ export class PhotoListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userName = this.activatedRoute.snapshot.params.userName;
-    this.photos = this.activatedRoute.snapshot.data.photos;
+    this.activatedRoute.params.subscribe((params) => {
+      this.userName = params.userName;
+      this.photos = this.activatedRoute.snapshot.data.photos;
+    });
   }
 
   load() {

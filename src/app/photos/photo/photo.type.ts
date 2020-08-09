@@ -1,4 +1,4 @@
-export interface Photo {
+export interface IPhoto {
   id: number;
   postDate: Date;
   url: string;
@@ -7,4 +7,10 @@ export interface Photo {
   likes: number;
   comments: number;
   userId: number;
+}
+
+export interface IPhotoComment {
+  date: Date;
+  text: string;
+  userName: string;
 }
