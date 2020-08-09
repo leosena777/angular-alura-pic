@@ -14,12 +14,19 @@ export class PhotoDetailComponent implements OnInit {
   photoId: number;
 
   constructor(
-    private router: ActivatedRoute,
-    private photoService: PhotoService
+    private route: ActivatedRoute,
+    private photoService: PhotoService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.photoId = this.router.snapshot.params.photoId;
+    this.photoId = this.route.snapshot.params.photoId;
     this.photo$ = this.photoService.findById(this.photoId);
+  }
+
+  remove() {
+    this.photoService.removePhoto(this.photoId).subscribe(() => {
+      this.router.navigate(['']);
+    });
   }
 }
