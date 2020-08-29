@@ -2,6 +2,8 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IPhoto, IPhotoComment } from './photo.type';
 import { TokenService } from 'src/app/core/services/token/token.service';
+import { map, catchError } from 'rxjs/operators';
+import { of, throwError } from 'rxjs';
 
 const API = 'http://localhost:3000';
 
@@ -24,7 +26,10 @@ export class PhotoService {
     formData.append('allowComments', allowComments ? 'true' : 'false');
     formData.append('imageFile', file);
 
-    return this.http.post(API + '/photos/upload', formData);
+    return this.http.post(API + '/photos/upload', formData, {
+      observe: 'events',
+      reportProgress: true,
+    });
   }
 
   findById(photoId: number) {
@@ -40,5 +45,24 @@ export class PhotoService {
       `${API}/photos/${photoId}/comments`,
       { commentText }
     );
+  }
+
+  removePhoto(photoId: number) {
+    return this.http.delete(`${API}/photos/${photoId}`);
+  }
+
+  like(photoId: number) {
+    return this.http
+      .post(`${API}/photos/${photoId}/like`, {}, { observe: 'response' })
+      .pipe(map(() => true))
+      .pipe(
+        catchError((err) => {
+          if (err.status === '304') {
+            return of(false);
+          } else {
+            return throwError(err);
+          }
+        })
+      );
   }
 }

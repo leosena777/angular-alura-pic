@@ -8,13 +8,10 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { VMessageModule } from 'src/app/shared/components/card/vmessage/vmessage.module';
 import { PhotoOwnerOnltyDirective } from './directives/photo-owner-onlty.directive';
+import { PhotosDirectivesModule } from './directives/photo-directives.module';
 
 @NgModule({
-  declarations: [
-    PhotoDetailComponent,
-    PhotoCommentsComponent,
-    PhotoOwnerOnltyDirective,
-  ],
+  declarations: [PhotoDetailComponent, PhotoCommentsComponent],
   exports: [PhotoDetailComponent],
   imports: [
     CommonModule,
@@ -22,6 +19,7 @@ import { PhotoOwnerOnltyDirective } from './directives/photo-owner-onlty.directi
     RouterModule,
     ReactiveFormsModule,
     VMessageModule,
+    PhotosDirectivesModule,
   ],
 })
 export class PhotoDetailModule {}
