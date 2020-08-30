@@ -12,6 +12,7 @@ import { INewUser } from 'src/app/core/services/signup/signup.types';
 import { SignupService } from 'src/app/core/services/signup/signup.service';
 import { Router } from '@angular/router';
 import { PlatformDetectorService } from 'src/app/core/services/platform-detector/platform-detector.service';
+import { userNamePasswordValidator } from './username-password.validators';
 
 @Component({
   templateUrl: './signup.component.html',
@@ -31,35 +32,40 @@ export class SignupComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    this.signupForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      userName: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(2),
-          Validators.maxLength(20),
-          lowerCaseValidator,
+    this.signupForm = this.formBuilder.group(
+      {
+        email: ['', [Validators.required, Validators.email]],
+        userName: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(2),
+            Validators.maxLength(20),
+            lowerCaseValidator,
+          ],
+          this.UserNoteTakenValidatorService.checkUserNameTaken(),
         ],
-        this.UserNoteTakenValidatorService.checkUserNameTaken(),
-      ],
-      fullName: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(2),
-          Validators.maxLength(40),
+        fullName: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(2),
+            Validators.maxLength(40),
+          ],
         ],
-      ],
-      password: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(8),
-          Validators.maxLength(14),
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.maxLength(14),
+          ],
         ],
-      ],
-    });
+      },
+      {
+        validators: userNamePasswordValidator,
+      }
+    );
   }
 
   ngAfterViewInit(): void {
@@ -69,9 +75,16 @@ export class SignupComponent implements OnInit, AfterViewInit {
   }
 
   signUp() {
-    const newUser: INewUser = this.signupForm.getRawValue();
-    this.signupService.signUp(newUser).subscribe(() => {
-      this.router.navigate(['']), (err) => {};
-    });
+    if (this.signupForm.valid && !this.signupForm.pending) {
+      const newUser: INewUser = this.signupForm.getRawValue();
+      this.signupService.signUp(newUser).subscribe(
+        () => {
+          this.router.navigate(['']);
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+    }
   }
 }
