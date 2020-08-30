@@ -6,6 +6,7 @@ import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { PhotoListResolver } from './photos/photo-list/photo-list.resolver';
 import { AuthGuard } from './core/services/auth/auth.guard';
 import { PhotoDetailComponent } from './photos/photo-detail/photo-detail.component';
+import { GlocalErrorComponent } from './errors/glocal-error/glocal-error.component';
 
 const routes: Routes = [
   {
@@ -40,6 +41,11 @@ const routes: Routes = [
     data: {
       title: 'Photo detail',
     },
+  },
+  {
+    path: 'error',
+    component: GlocalErrorComponent,
+    data: { title: 'Error' },
   },
   {
     path: 'not-found',
